@@ -1,25 +1,20 @@
 function buscarFamoso() {
-  var dataAniversarioStr = document.getElementById("dataAniversario").value;
-  var dataAniversarioArr = dataAniversarioStr.split("-");
-  var diaAniversario = parseInt(dataAniversarioArr[2]);
-  var mesAniversario = parseInt(dataAniversarioArr[1]);
+  const dataAniversarioStr = document.getElementById("dataAniversario").value;
+  const [anoAniversario, mesAniversario, diaAniversario] = dataAniversarioStr.split("-").map(Number);
 
-  var script = document.createElement('script');
-  script.src = 'dados.js';
+  const script = document.createElement("script");
+  script.src = "dados.js";
   document.head.appendChild(script);
 
-  var resultado = document.getElementById("resultado");
-  for (var i = 0; i < listaAniversarios.length; i++) {
-    var dataFamoso = listaAniversarios[i].data;
-    var diaFamoso = parseInt(dataFamoso.split("-")[2]);
-    var mesFamoso = parseInt(dataFamoso.split("-")[1]);
+  const resultado = document.getElementById("resultado");
+  const famosoEncontrado = listaAniversarios.find((item) => {
+    const [anoFamoso, mesFamoso, diaFamoso] = item.data.split("-").map(Number);
+    return diaFamoso === diaAniversario && mesFamoso === mesAniversario;
+  });
 
-    if (mesFamoso === mesAniversario && diaFamoso === diaAniversario) {
-      resultado.innerHTML = "<h2>" + listaAniversarios[i].famoso + "</h2><p>" + listaAniversarios[i].biografia + "</p>";
-      return;
-    }
+  if (famosoEncontrado) {
+    resultado.innerHTML = `<h2>${famosoEncontrado.famoso}</h2><p>${famosoEncontrado.biografia}</p>`;
+  } else {
+    resultado.innerHTML = "<p>Nenhum famoso encontrado com essa data de aniversário.</p>";
   }
-
-  resultado.innerHTML = "<p>Nenhum famoso encontrado com essa data de aniversário.</p>";
 }
-
